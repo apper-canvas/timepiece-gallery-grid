@@ -1,0 +1,29 @@
+[
+  {
+    "Id": 1,
+    "items": [
+      {
+        "watchId": 1,
+        "brand": "Rolex",
+        "model": "Submariner Date",
+        "price": 13850,
+        "quantity": 1
+      }
+    ],
+    "totalAmount": 14958,
+    "shippingAddress": {
+      "firstName": "John",
+      "lastName": "Doe",
+      "email": "john.doe@example.com",
+      "phone": "555-0123",
+      "address": "123 Main St",
+      "city": "New York",
+      "state": "NY",
+      "zipCode": "10001"
+    },
+    "paymentMethod": "credit_card",
+    "orderDate": "2024-01-15T10:30:00Z",
+    "status": "confirmed",
+    "orderNumber": "TG123456789"
+  }
+]

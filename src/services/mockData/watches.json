@@ -1,0 +1,290 @@
+[
+  {
+    "Id": 1,
+    "brand": "Rolex",
+    "model": "Submariner Date",
+    "price": 13850,
+    "category": "luxury",
+    "images": [
+      "https://images.unsplash.com/photo-1523170335258-f5c0b11c7e10?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=500&h=500&fit=crop"
+    ],
+    "movement": "Automatic",
+    "caseSize": "41mm",
+    "caseMaterial": "Oystersteel",
+    "strapMaterial": "Oystersteel",
+    "waterResistance": "300m",
+    "description": "The Rolex Submariner Date is the most recognizable dive watch in the world. With its iconic design and exceptional craftsmanship, this timepiece represents the pinnacle of luxury sports watches.",
+    "inStock": true,
+    "specifications": {
+      "caliber": "3235",
+      "powerReserve": "70 hours",
+      "frequency": "28,800 vph",
+      "jewels": 31
+    }
+  },
+  {
+    "Id": 2,
+    "brand": "Omega",
+    "model": "Speedmaster Professional",
+    "price": 6350,
+    "category": "luxury",
+    "images": [
+      "https://images.unsplash.com/photo-1587036104449-6ce6b745b54b?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=500&h=500&fit=crop"
+    ],
+    "movement": "Manual",
+    "caseSize": "42mm",
+    "caseMaterial": "Stainless Steel",
+    "strapMaterial": "Leather",
+    "waterResistance": "50m",
+    "description": "The legendary Moonwatch. This is the watch that has been to the moon and back, worn by astronauts on all six lunar landings. A true icon of space exploration.",
+    "inStock": true,
+    "specifications": {
+      "caliber": "1863",
+      "powerReserve": "48 hours",
+      "frequency": "21,600 vph",
+      "jewels": 18
+    }
+  },
+  {
+    "Id": 3,
+    "brand": "TAG Heuer",
+    "model": "Carrera Chronograph",
+    "price": 4200,
+    "category": "sport",
+    "images": [
+      "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=500&h=500&fit=crop"
+    ],
+    "movement": "Automatic",
+    "caseSize": "41mm",
+    "caseMaterial": "Stainless Steel",
+    "strapMaterial": "Steel Bracelet",
+    "waterResistance": "100m",
+    "description": "Inspired by racing, the TAG Heuer Carrera embodies the spirit of speed and precision. This chronograph is perfect for those who appreciate motorsport heritage.",
+    "inStock": true,
+    "specifications": {
+      "caliber": "Heuer 02",
+      "powerReserve": "80 hours",
+      "frequency": "28,800 vph",
+      "jewels": 33
+    }
+  },
+  {
+    "Id": 4,
+    "brand": "Seiko",
+    "model": "Prospex Solar Diver",
+    "price": 280,
+    "category": "sport",
+    "images": [
+      "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500&h=500&fit=crop"
+    ],
+    "movement": "Solar Quartz",
+    "caseSize": "43.5mm",
+    "caseMaterial": "Stainless Steel",
+    "strapMaterial": "Silicone",
+    "waterResistance": "200m",
+    "description": "A reliable and affordable dive watch with solar movement. Perfect for underwater adventures and everyday wear with exceptional value for money.",
+    "inStock": true,
+    "specifications": {
+      "caliber": "V157",
+      "powerReserve": "10 months",
+      "frequency": "32,768 Hz",
+      "accuracy": "±15 seconds per month"
+    }
+  },
+  {
+    "Id": 5,
+    "brand": "Casio",
+    "model": "G-Shock GA-2100",
+    "price": 110,
+    "category": "sport",
+    "images": [
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1606859041871-b0f62e73c325?w=500&h=500&fit=crop"
+    ],
+    "movement": "Digital Quartz",
+    "caseSize": "45mm",
+    "caseMaterial": "Carbon Core",
+    "strapMaterial": "Resin",
+    "waterResistance": "200m",
+    "description": "The ultra-slim G-Shock with modern design. Combines traditional G-Shock toughness with contemporary aesthetics in the thinnest profile yet.",
+    "inStock": true,
+    "specifications": {
+      "module": "5611",
+      "batteryLife": "3 years",
+      "features": "Shock resistant, 200m water resistant, LED light",
+      "accuracy": "±15 seconds per month"
+    }
+  },
+  {
+    "Id": 6,
+    "brand": "Apple",
+    "model": "Watch Series 9",
+    "price": 429,
+    "category": "smartwatch",
+    "images": [
+      "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1579586337278-3f436f25d4d6?w=500&h=500&fit=crop"
+    ],
+    "movement": "Digital",
+    "caseSize": "45mm",
+    "caseMaterial": "Aluminum",
+    "strapMaterial": "Sport Band",
+    "waterResistance": "50m",
+    "description": "The most advanced Apple Watch yet, featuring the new S9 chip, brighter display, and innovative Double Tap gesture. Your ultimate health and fitness companion.",
+    "inStock": true,
+    "specifications": {
+      "processor": "S9 SiP",
+      "display": "Always-On Retina LTPO OLED",
+      "batteryLife": "18 hours",
+      "storage": "64GB"
+    }
+  },
+  {
+    "Id": 7,
+    "brand": "Breitling",
+    "model": "Navitimer B01",
+    "price": 8600,
+    "category": "luxury",
+    "images": [
+      "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?w=500&h=500&fit=crop"
+    ],
+    "movement": "Automatic",
+    "caseSize": "43mm",
+    "caseMaterial": "Stainless Steel",
+    "strapMaterial": "Leather",
+    "waterResistance": "30m",
+    "description": "The iconic pilot's watch with circular slide rule. A legendary timepiece that has been the choice of aviators for decades, combining precision with aviation heritage.",
+    "inStock": false,
+    "specifications": {
+      "caliber": "B01",
+      "powerReserve": "70 hours",
+      "frequency": "28,800 vph",
+      "jewels": 47
+    }
+  },
+  {
+    "Id": 8,
+    "brand": "Samsung",
+    "model": "Galaxy Watch6 Classic",
+    "price": 429,
+    "category": "smartwatch",
+    "images": [
+      "https://images.unsplash.com/photo-1579586337278-3f436f25d4d6?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=500&h=500&fit=crop"
+    ],
+    "movement": "Digital",
+    "caseSize": "47mm",
+    "caseMaterial": "Stainless Steel",
+    "strapMaterial": "Leather",
+    "waterResistance": "50m",
+    "description": "Premium smartwatch with rotating bezel and comprehensive health tracking. Perfect blend of classic watch design with modern smart features.",
+    "inStock": true,
+    "specifications": {
+      "processor": "Exynos W930",
+      "display": "Super AMOLED",
+      "batteryLife": "40 hours",
+      "storage": "16GB"
+    }
+  },
+  {
+    "Id": 9,
+    "brand": "Fossil",
+    "model": "Grant Chronograph",
+    "price": 195,
+    "category": "fashion",
+    "images": [
+      "https://images.unsplash.com/photo-1594534346655-d4fe3d62e3e9?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=500&h=500&fit=crop"
+    ],
+    "movement": "Quartz",
+    "caseSize": "44mm",
+    "caseMaterial": "Stainless Steel",
+    "strapMaterial": "Leather",
+    "waterResistance": "50m",
+    "description": "Classic American style chronograph with Roman numeral indices. Perfect for both casual and formal occasions with timeless design appeal.",
+    "inStock": true,
+    "specifications": {
+      "movement": "Quartz chronograph",
+      "batteryLife": "2 years",
+      "features": "Chronograph, Date",
+      "accuracy": "±20 seconds per month"
+    }
+  },
+  {
+    "Id": 10,
+    "brand": "Daniel Wellington",
+    "model": "Classic Sheffield",
+    "price": 199,
+    "category": "fashion",
+    "images": [
+      "https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop"
+    ],
+    "movement": "Quartz",
+    "caseSize": "40mm",
+    "caseMaterial": "Stainless Steel",
+    "strapMaterial": "Leather",
+    "waterResistance": "30m",
+    "description": "Minimalist Scandinavian design with clean lines and elegant simplicity. The perfect accessory for modern lifestyle with understated sophistication.",
+    "inStock": true,
+    "specifications": {
+      "movement": "Japanese quartz",
+      "batteryLife": "2 years",
+      "features": "Minimalist design, interchangeable straps",
+      "accuracy": "±20 seconds per month"
+    }
+  },
+  {
+    "Id": 11,
+    "brand": "Citizen",
+    "model": "Eco-Drive Promaster",
+    "price": 350,
+    "category": "sport",
+    "images": [
+      "https://images.unsplash.com/photo-1434056886845-dac89ffe9b56?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500&h=500&fit=crop"
+    ],
+    "movement": "Solar",
+    "caseSize": "42mm",
+    "caseMaterial": "Titanium",
+    "strapMaterial": "Titanium",
+    "waterResistance": "200m",
+    "description": "Eco-friendly solar-powered dive watch with titanium construction. Combining environmental consciousness with professional diving capability.",
+    "inStock": true,
+    "specifications": {
+      "caliber": "E168",
+      "powerReserve": "6 months",
+      "frequency": "32,768 Hz",
+      "accuracy": "±15 seconds per month"
+    }
+  },
+  {
+    "Id": 12,
+    "brand": "Tissot",
+    "model": "PRC 200",
+    "price": 375,
+    "category": "sport",
+    "images": [
+      "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=500&h=500&fit=crop",
+      "https://images.unsplash.com/photo-1611930022073-b7a4ba5fcccd?w=500&h=500&fit=crop"
+    ],
+    "movement": "Quartz",
+    "caseSize": "39mm",
+    "caseMaterial": "Stainless Steel",
+    "strapMaterial": "Steel Bracelet",
+    "waterResistance": "200m",
+    "description": "Swiss precision in an affordable sports watch. Perfect balance of functionality and style for active lifestyle enthusiasts.",
+    "inStock": true,
+    "specifications": {
+      "caliber": "ETA G10.211",
+      "batteryLife": "2 years",
+      "features": "Chronograph, Tachymeter",
+      "accuracy": "±10 seconds per month"
+    }
+  }
+]

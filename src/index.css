@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* React-toastify styles */
+@import 'react-toastify/dist/ReactToastify.css';
+
+/* Custom toast styling */
+.Toastify__toast-container {
+  z-index: 9999;
+}
+
+.Toastify__toast {
+  font-family: 'Inter', sans-serif;
+  border-radius: 8px;
+  min-height: auto;
+  padding: 12px 16px;
+}
+
+.Toastify__toast--success {
+  background: #2d7a3e;
+}
+
+.Toastify__toast--error {
+  background: #b91c1c;
+}
+
+.Toastify__toast--info {
+  background: #1e40af;
+}
+
+.Toastify__toast--warning {
+  background: #d97706;
+}
+
+/* Base styles */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+}
+
+.font-display {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-body {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Custom utilities */
+.card-hover {
+  transition: all 0.2s ease-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.btn-primary-hover {
+  transition: all 0.15s ease-out;
+}
+
+.btn-primary-hover:hover {
+  background-color: #b8935f;
+  transform: translateY(-1px);
+}
+
+.btn-primary-hover:active {
+  transform: scale(0.98);
+}
+
+/* Image zoom utility */
+.image-zoom {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backface-visibility: hidden;
+}
+
+.image-zoom:hover {
+  transform: scale(1.05);
+}
+
+/* Skeleton loader animations */
+@keyframes pulse {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-pulse {
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Scrollbar styling */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: #8b7355;
+  border-radius: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: #c9a96e;
+}
