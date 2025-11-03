@@ -191,10 +191,9 @@ const Header = ({ cartItemCount = 0, onSearch, onCartClick, onMobileMenuToggle }
                     >
                       Sign Up
                     </Button>
-                  </div>
+</div>
                 )}
               </div>
-              ))}
             </nav>
           </div>
         </div>
