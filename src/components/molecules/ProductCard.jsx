@@ -4,7 +4,7 @@ import Button from "@/components/atoms/Button";
 import Badge from "@/components/atoms/Badge";
 import ApperIcon from "@/components/ApperIcon";
 
-const ProductCard = ({ watch, onAddToCart, className }) => {
+const ProductCard = ({ watch, onAddToCart = null, className }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
