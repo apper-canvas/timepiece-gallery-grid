@@ -25,7 +25,7 @@ class CartService {
   }
 
   // Add item to cart
-  addToCart(watch, quantity = 1) {
+addToCart(watch, quantity = 1) {
     const cartItems = this.getCartItems();
     const existingItem = cartItems.find(item => item.watchId === watch.Id);
 
@@ -37,7 +37,7 @@ class CartService {
         brand: watch.brand,
         model: watch.model,
         price: watch.price,
-        image: watch.images[0],
+        image: watch.images && watch.images[0] ? watch.images[0] : 'https://images.unsplash.com/photo-1523170335258-f5c0b11c7e10?w=500&h=500&fit=crop',
         quantity: quantity
       });
     }

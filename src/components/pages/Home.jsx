@@ -16,11 +16,11 @@ const Home = ({ onAddToCart }) => {
   const { watches: featuredWatches, loading: featuredLoading } = useFeaturedWatches(4);
 
   const categories = [
-    { id: "all", label: "All Watches", count: watches.length },
+{ id: "all", label: "All Watches", count: watches?.length || 0 },
     { id: "luxury", label: "Luxury", count: watches.filter(w => w.category === "luxury").length },
-    { id: "sport", label: "Sport", count: watches.filter(w => w.category === "sport").length },
-    { id: "fashion", label: "Fashion", count: watches.filter(w => w.category === "fashion").length },
-    { id: "smartwatch", label: "Smartwatch", count: watches.filter(w => w.category === "smartwatch").length }
+{ id: "sport", label: "Sport", count: watches?.filter(w => w.category === "sport").length || 0 },
+    { id: "fashion", label: "Fashion", count: watches?.filter(w => w.category === "fashion").length || 0 },
+    { id: "smartwatch", label: "Smartwatch", count: watches?.filter(w => w.category === "smartwatch").length || 0 }
   ];
 
   const handleCategoryFilter = (category) => {
@@ -32,7 +32,7 @@ const Home = ({ onAddToCart }) => {
     }
   };
 
-  const displayedWatches = activeSection === "all" ? watches : watches.filter(w => w.category === activeSection);
+const displayedWatches = activeSection === "all" ? (watches || []) : (watches || []).filter(w => w.category === activeSection);
 
   return (
     <div className="min-h-screen bg-background">
@@ -161,10 +161,10 @@ const Home = ({ onAddToCart }) => {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <h3 className="font-display text-xl font-semibold text-primary">
-                    {activeSection === "all" ? "All Watches" : `${activeSection.charAt(0).toUpperCase() + activeSection.slice(1)} Watches`}
+{activeSection === "all" ? "All Watches" : `${activeSection.charAt(0).toUpperCase() + activeSection.slice(1)} Watches`}
                   </h3>
                   <p className="text-secondary">
-                    {displayedWatches.length} {displayedWatches.length === 1 ? "watch" : "watches"} found
+{displayedWatches?.length || 0} {(displayedWatches?.length || 0) === 1 ? "watch" : "watches"} found
                   </p>
                 </div>
 

@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import watchService from "@/services/api/watchService";
 
 export const useWatches = (initialFilters = {}) => {
@@ -7,15 +8,16 @@ export const useWatches = (initialFilters = {}) => {
   const [error, setError] = useState(null);
   const [filters, setFilters] = useState(initialFilters);
 
-  const loadWatches = async () => {
+const loadWatches = async () => {
     try {
       setLoading(true);
       setError(null);
       const data = await watchService.getAll(filters);
       setWatches(data);
-    } catch (err) {
-      setError(err.message);
-      console.error("Error loading watches:", err);
+    } catch (error) {
+      setError(error.message);
+      console.error("Error loading watches:", error);
+      toast.error("Failed to load watches. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -53,17 +55,17 @@ export const useWatch = (id) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const loadWatch = async () => {
+const loadWatch = async () => {
     if (!id) return;
-    
     try {
       setLoading(true);
       setError(null);
       const data = await watchService.getById(id);
       setWatch(data);
-    } catch (err) {
-      setError(err.message);
-      console.error("Error loading watch:", err);
+    } catch (error) {
+      setError(error.message);
+      console.error("Error loading watch:", error);
+      toast.error("Failed to load watch details. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -90,15 +92,16 @@ export const useFeaturedWatches = (limit = 4) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const loadFeaturedWatches = async () => {
+const loadFeaturedWatches = async () => {
     try {
       setLoading(true);
       setError(null);
       const data = await watchService.getFeatured(limit);
       setWatches(data);
-    } catch (err) {
-      setError(err.message);
-      console.error("Error loading featured watches:", err);
+    } catch (error) {
+      setError(error.message);
+      console.error("Error loading featured watches:", error);
+      toast.error("Failed to load featured watches. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -125,17 +128,17 @@ export const useRelatedWatches = (watchId, limit = 4) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const loadRelatedWatches = async () => {
+const loadRelatedWatches = async () => {
     if (!watchId) return;
-    
     try {
       setLoading(true);
       setError(null);
       const data = await watchService.getRelated(watchId, limit);
       setWatches(data);
-    } catch (err) {
-      setError(err.message);
-      console.error("Error loading related watches:", err);
+    } catch (error) {
+      setError(error.message);
+      console.error("Error loading related watches:", error);
+      toast.error("Failed to load related watches. Please try again.");
     } finally {
       setLoading(false);
     }

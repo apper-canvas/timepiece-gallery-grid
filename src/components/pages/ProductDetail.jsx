@@ -19,8 +19,8 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const { watches: relatedWatches, loading: relatedLoading } = useRelatedWatches(id, 4);
 
   // Preload images to prevent blinking/flashing
-  useEffect(() => {
-    if (watch?.images) {
+useEffect(() => {
+    if (watch?.images && Array.isArray(watch.images)) {
       watch.images.forEach(src => {
         const img = new Image();
         img.src = src;
@@ -126,7 +126,7 @@ const [selectedImageIndex, setSelectedImageIndex] = useState(0);
               )}
             </div>
             
-            {watch.images.length > 1 && (
+{watch.images && watch.images.length > 1 && (
               <div className="flex gap-3 overflow-x-auto pb-2">
                 {watch.images.map((image, index) => (
                   <button

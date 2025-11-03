@@ -18,8 +18,8 @@ const CategoryPage = ({ onAddToCart }) => {
     try {
       setLoading(true);
       setError(null);
-      const data = await watchService.getAll(filters);
-      setWatches(data);
+const data = await watchService.getAll(filters);
+      setWatches(data || []);
     } catch (err) {
       setError(err.message);
       console.error("Error loading watches:", err);
@@ -81,8 +81,8 @@ const CategoryPage = ({ onAddToCart }) => {
             <h2 className="font-display text-2xl font-semibold text-primary">
               {getCategoryTitle()}
             </h2>
-            <p className="text-secondary">
-              {watches.length} {watches.length === 1 ? "watch" : "watches"} found
+<p className="text-secondary">
+              {watches?.length || 0} {(watches?.length || 0) === 1 ? "watch" : "watches"} found
             </p>
           </div>
           

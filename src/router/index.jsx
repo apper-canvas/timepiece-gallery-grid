@@ -1,5 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { createBrowserRouter } from "react-router-dom";
+import { getRouteConfig } from "@/router/route.utils";
+import Root from "@/layouts/Root";
 import Layout from "@/components/organisms/Layout";
 import NotFound from "@/components/pages/NotFound";
 
@@ -10,6 +12,13 @@ const CategoryPage = lazy(() => import("@/components/pages/CategoryPage"));
 const Checkout = lazy(() => import("@/components/pages/Checkout"));
 const OrderConfirmation = lazy(() => import("@/components/pages/OrderConfirmation"));
 
+// Authentication pages
+const Login = lazy(() => import("@/components/pages/Login"));
+const Signup = lazy(() => import("@/components/pages/Signup"));
+const Callback = lazy(() => import("@/components/pages/Callback"));
+const ErrorPage = lazy(() => import("@/components/pages/ErrorPage"));
+const ResetPassword = lazy(() => import("@/components/pages/ResetPassword"));
+const PromptPassword = lazy(() => import("@/components/pages/PromptPassword"));
 // Loading component
 const PageLoader = () => (
   <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -23,65 +32,109 @@ const PageLoader = () => (
 );
 
 // Main routes configuration
+const createRoute = ({
+  path,
+  index,
+  element,
+  access,
+  children,
+  ...meta
+}) => {
+  // Get config for this route
+  let configPath;
+  if (index) {
+    configPath = "/";
+  } else {
+    configPath = path.startsWith('/') ? path : `/${path}`;
+  }
+
+  const config = getRouteConfig(configPath);
+  const finalAccess = access || config?.allow;
+
+  const route = {
+    ...(index ? { index: true } : { path }),
+    element: element ? <Suspense fallback={<PageLoader />}>{element}</Suspense> : element,
+    handle: {
+      access: finalAccess,
+      ...meta,
+    },
+  };
+
+  if (children && children.length > 0) {
+    route.children = children;
+  }
+
+  return route;
+};
+
 const mainRoutes = [
-  {
-    path: "",
+  createRoute({
     index: true,
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <Home />
-      </Suspense>
-    ),
-  },
-  {
+    element: <Home />
+  }),
+  createRoute({
     path: "product/:id",
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <ProductDetail />
-      </Suspense>
-    ),
-  },
-  {
+    element: <ProductDetail />
+  }),
+  createRoute({
     path: "category/:category",
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <CategoryPage />
-      </Suspense>
-    ),
-  },
-  {
+    element: <CategoryPage />
+  }),
+  createRoute({
     path: "checkout",
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <Checkout />
-      </Suspense>
-    ),
-  },
-  {
+    element: <Checkout />
+  }),
+  createRoute({
     path: "order-confirmation/:orderId",
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <OrderConfirmation />
-      </Suspense>
-    ),
-  },
-  {
+    element: <OrderConfirmation />
+  }),
+  createRoute({
     path: "*",
-    element: (
-      <Suspense fallback={<PageLoader />}>
-        <NotFound />
-      </Suspense>
-    ),
-  },
+    element: <NotFound />
+  })
+];
+
+const authRoutes = [
+  createRoute({
+    path: "login",
+    element: <Login />
+  }),
+  createRoute({
+    path: "signup",
+    element: <Signup />
+  }),
+  createRoute({
+    path: "callback",
+    element: <Callback />
+  }),
+  createRoute({
+    path: "error",
+    element: <ErrorPage />
+  }),
+  createRoute({
+    path: "reset-password/:appId/:fields",
+    element: <ResetPassword />
+  }),
+  createRoute({
+    path: "prompt-password/:appId/:emailAddress/:provider",
+    element: <PromptPassword />
+  })
 ];
 
 // Router configuration
 const routes = [
   {
     path: "/",
-    element: <Layout />,
-    children: [...mainRoutes],
-  },
+    element: <Root />,
+    children: [
+      {
+        path: "/",
+        element: <Layout />,
+        children: [...mainRoutes],
+      },
+      ...authRoutes
+    ]
+  }
 ];
 
 export const router = createBrowserRouter(routes);

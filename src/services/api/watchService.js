@@ -1,81 +1,198 @@
-import watchesData from "@/services/mockData/watches.json";
+import { getApperClient } from "@/services/apperClient";
 
-// Simulate API delay
+// Simulate API delay for realistic UX
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 class WatchService {
-  constructor() {
-    this.watches = [...watchesData];
-  }
-
   async getAll(filters = {}) {
     await delay(300);
     
-    let filteredWatches = [...this.watches];
+    try {
+      const apperClient = getApperClient();
+      if (!apperClient) {
+        throw new Error("ApperClient not available");
+      }
 
-    // Apply category filter
-    if (filters.categories && filters.categories.length > 0) {
-      filteredWatches = filteredWatches.filter(watch => 
-        filters.categories.includes(watch.category)
-      );
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "brand_c"}},
+          {"field": {"Name": "model_c"}},
+          {"field": {"Name": "price_c"}},
+          {"field": {"Name": "category_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "in_stock_c"}},
+          {"field": {"Name": "movement_c"}},
+          {"field": {"Name": "case_size_c"}},
+          {"field": {"Name": "case_material_c"}},
+          {"field": {"Name": "strap_material_c"}},
+          {"field": {"Name": "water_resistance_c"}},
+          {"field": {"Name": "images_c"}},
+          {"field": {"Name": "specifications_c"}}
+        ],
+        where: [],
+        orderBy: [{"fieldName": "Id", "sorttype": "ASC"}],
+        pagingInfo: {"limit": 100, "offset": 0}
+      };
+
+      // Apply category filter
+      if (filters.categories && filters.categories.length > 0) {
+        params.where.push({
+          "FieldName": "category_c",
+          "Operator": "ExactMatch",
+          "Values": filters.categories,
+          "Include": true
+        });
+      }
+
+      // Apply brand filter
+      if (filters.brands && filters.brands.length > 0) {
+        params.where.push({
+          "FieldName": "brand_c",
+          "Operator": "ExactMatch",
+          "Values": filters.brands,
+          "Include": true
+        });
+      }
+
+      // Apply price range filter
+      if (filters.priceRange) {
+        const { min, max } = filters.priceRange;
+        params.where.push({
+          "FieldName": "price_c",
+          "Operator": "GreaterThanOrEqualTo",
+          "Values": [min.toString()],
+          "Include": true
+        });
+        params.where.push({
+          "FieldName": "price_c",
+          "Operator": "LessThanOrEqualTo",
+          "Values": [max.toString()],
+          "Include": true
+        });
+      }
+
+      // Apply search filter
+      if (filters.search) {
+        const searchTerm = filters.search;
+        params.whereGroups = [{
+          "operator": "OR",
+          "subGroups": [
+            {
+              "conditions": [
+                {"fieldName": "brand_c", "operator": "Contains", "values": [searchTerm]},
+                {"fieldName": "model_c", "operator": "Contains", "values": [searchTerm]},
+                {"fieldName": "category_c", "operator": "Contains", "values": [searchTerm]},
+                {"fieldName": "description_c", "operator": "Contains", "values": [searchTerm]}
+              ],
+              "operator": "OR"
+            }
+          ]
+        }];
+      }
+
+      const response = await apperClient.fetchRecords('watch_c', params);
+      
+      if (!response.success) {
+        throw new Error(response.message || "Failed to fetch watches");
+      }
+
+      // Transform database fields to UI format
+      return response.data.map(watch => this.transformWatchData(watch));
+    } catch (error) {
+      console.error("Error fetching watches:", error);
+      throw error;
     }
-
-    // Apply brand filter
-    if (filters.brands && filters.brands.length > 0) {
-      filteredWatches = filteredWatches.filter(watch => 
-        filters.brands.includes(watch.brand)
-      );
-    }
-
-    // Apply price range filter
-    if (filters.priceRange) {
-      const { min, max } = filters.priceRange;
-      filteredWatches = filteredWatches.filter(watch => 
-        watch.price >= min && watch.price <= max
-      );
-    }
-
-    // Apply search filter
-    if (filters.search) {
-      const searchTerm = filters.search.toLowerCase();
-      filteredWatches = filteredWatches.filter(watch => 
-        watch.brand.toLowerCase().includes(searchTerm) ||
-        watch.model.toLowerCase().includes(searchTerm) ||
-        watch.category.toLowerCase().includes(searchTerm)
-      );
-    }
-
-    return filteredWatches;
   }
 
   async getById(id) {
     await delay(200);
     
-    const watch = this.watches.find(w => w.Id === parseInt(id));
-    if (!watch) {
-      throw new Error(`Watch with ID ${id} not found`);
+    try {
+      const apperClient = getApperClient();
+      if (!apperClient) {
+        throw new Error("ApperClient not available");
+      }
+
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "brand_c"}},
+          {"field": {"Name": "model_c"}},
+          {"field": {"Name": "price_c"}},
+          {"field": {"Name": "category_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "in_stock_c"}},
+          {"field": {"Name": "movement_c"}},
+          {"field": {"Name": "case_size_c"}},
+          {"field": {"Name": "case_material_c"}},
+          {"field": {"Name": "strap_material_c"}},
+          {"field": {"Name": "water_resistance_c"}},
+          {"field": {"Name": "images_c"}},
+          {"field": {"Name": "specifications_c"}}
+        ]
+      };
+
+      const response = await apperClient.getRecordById('watch_c', parseInt(id), params);
+      
+      if (!response.success) {
+        throw new Error(response.message || `Watch with ID ${id} not found`);
+      }
+
+      return this.transformWatchData(response.data);
+    } catch (error) {
+      console.error(`Error fetching watch ${id}:`, error);
+      throw error;
     }
-    return { ...watch };
   }
 
   async getByCategory(category) {
     await delay(250);
     
-    const filteredWatches = this.watches.filter(watch => 
-      watch.category.toLowerCase() === category.toLowerCase()
-    );
-    return filteredWatches;
+    return this.getAll({ categories: [category.toLowerCase()] });
   }
 
   async getFeatured(limit = 4) {
     await delay(200);
     
-    // Return highest priced watches as featured
-    const featured = [...this.watches]
-      .sort((a, b) => b.price - a.price)
-      .slice(0, limit);
-    
-    return featured;
+    try {
+      const apperClient = getApperClient();
+      if (!apperClient) {
+        throw new Error("ApperClient not available");
+      }
+
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "brand_c"}},
+          {"field": {"Name": "model_c"}},
+          {"field": {"Name": "price_c"}},
+          {"field": {"Name": "category_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "in_stock_c"}},
+          {"field": {"Name": "movement_c"}},
+          {"field": {"Name": "case_size_c"}},
+          {"field": {"Name": "case_material_c"}},
+          {"field": {"Name": "strap_material_c"}},
+          {"field": {"Name": "water_resistance_c"}},
+          {"field": {"Name": "images_c"}},
+          {"field": {"Name": "specifications_c"}}
+        ],
+        orderBy: [{"fieldName": "price_c", "sorttype": "DESC"}],
+        pagingInfo: {"limit": limit, "offset": 0}
+      };
+
+      const response = await apperClient.fetchRecords('watch_c', params);
+      
+      if (!response.success) {
+        throw new Error(response.message || "Failed to fetch featured watches");
+      }
+
+      return response.data.map(watch => this.transformWatchData(watch));
+    } catch (error) {
+      console.error("Error fetching featured watches:", error);
+      throw error;
+    }
   }
 
   async searchWatches(query) {
@@ -85,64 +202,195 @@ class WatchService {
       return [];
     }
 
-    const searchTerm = query.toLowerCase().trim();
-    const results = this.watches.filter(watch => 
-      watch.brand.toLowerCase().includes(searchTerm) ||
-      watch.model.toLowerCase().includes(searchTerm) ||
-      watch.category.toLowerCase().includes(searchTerm) ||
-      watch.description.toLowerCase().includes(searchTerm)
-    );
-
-    return results;
+    return this.getAll({ search: query.trim() });
   }
 
-  // Get related watches (same category, different brand)
   async getRelated(watchId, limit = 4) {
     await delay(200);
     
-    const currentWatch = this.watches.find(w => w.Id === parseInt(watchId));
-    if (!currentWatch) {
+    try {
+      // First get the current watch to know its category and brand
+      const currentWatch = await this.getById(watchId);
+      if (!currentWatch) {
+        return [];
+      }
+
+      const apperClient = getApperClient();
+      if (!apperClient) {
+        throw new Error("ApperClient not available");
+      }
+
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "brand_c"}},
+          {"field": {"Name": "model_c"}},
+          {"field": {"Name": "price_c"}},
+          {"field": {"Name": "category_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "in_stock_c"}},
+          {"field": {"Name": "movement_c"}},
+          {"field": {"Name": "case_size_c"}},
+          {"field": {"Name": "case_material_c"}},
+          {"field": {"Name": "strap_material_c"}},
+          {"field": {"Name": "water_resistance_c"}},
+          {"field": {"Name": "images_c"}},
+          {"field": {"Name": "specifications_c"}}
+        ],
+        where: [
+          {
+            "FieldName": "Id",
+            "Operator": "NotEqualTo",
+            "Values": [watchId.toString()],
+            "Include": true
+          },
+          {
+            "FieldName": "category_c",
+            "Operator": "EqualTo",
+            "Values": [currentWatch.category],
+            "Include": true
+          },
+          {
+            "FieldName": "brand_c",
+            "Operator": "NotEqualTo",
+            "Values": [currentWatch.brand],
+            "Include": true
+          }
+        ],
+        pagingInfo: {"limit": limit, "offset": 0}
+      };
+
+      const response = await apperClient.fetchRecords('watch_c', params);
+      
+      if (!response.success) {
+        console.error("Failed to fetch related watches:", response.message);
+        return [];
+      }
+
+      return response.data.map(watch => this.transformWatchData(watch));
+    } catch (error) {
+      console.error("Error fetching related watches:", error);
       return [];
     }
-
-    const related = this.watches
-      .filter(watch => 
-        watch.Id !== parseInt(watchId) && 
-        watch.category === currentWatch.category &&
-        watch.brand !== currentWatch.brand
-      )
-      .slice(0, limit);
-
-    return related;
   }
 
-  // Get watches in stock
   async getInStock() {
     await delay(200);
     
-    return this.watches.filter(watch => watch.inStock);
+    try {
+      const apperClient = getApperClient();
+      if (!apperClient) {
+        throw new Error("ApperClient not available");
+      }
+
+      const params = {
+        fields: [
+          {"field": {"Name": "Name"}},
+          {"field": {"Name": "brand_c"}},
+          {"field": {"Name": "model_c"}},
+          {"field": {"Name": "price_c"}},
+          {"field": {"Name": "category_c"}},
+          {"field": {"Name": "description_c"}},
+          {"field": {"Name": "in_stock_c"}},
+          {"field": {"Name": "movement_c"}},
+          {"field": {"Name": "case_size_c"}},
+          {"field": {"Name": "case_material_c"}},
+          {"field": {"Name": "strap_material_c"}},
+          {"field": {"Name": "water_resistance_c"}},
+          {"field": {"Name": "images_c"}},
+          {"field": {"Name": "specifications_c"}}
+        ],
+        where: [
+          {
+            "FieldName": "in_stock_c",
+            "Operator": "EqualTo",
+            "Values": ["true"],
+            "Include": true
+          }
+        ]
+      };
+
+      const response = await apperClient.fetchRecords('watch_c', params);
+      
+      if (!response.success) {
+        throw new Error(response.message || "Failed to fetch in-stock watches");
+      }
+
+      return response.data.map(watch => this.transformWatchData(watch));
+    } catch (error) {
+      console.error("Error fetching in-stock watches:", error);
+      throw error;
+    }
   }
 
-  // Get price range for filters
   getPriceRange() {
-    const prices = this.watches.map(watch => watch.price);
+    // Static range for now - could be made dynamic with aggregator queries
     return {
-      min: Math.min(...prices),
-      max: Math.max(...prices)
+      min: 0,
+      max: 50000
     };
   }
 
-  // Get available categories
   getCategories() {
-    const categories = [...new Set(this.watches.map(watch => watch.category))];
-    return categories.sort();
+    // Based on database picklist values: luxury,sport,fashion,smartwatch
+    return ["luxury", "sport", "fashion", "smartwatch"];
   }
 
-  // Get available brands
   getBrands() {
-    const brands = [...new Set(this.watches.map(watch => watch.brand))];
-    return brands.sort();
+    // Common watch brands - could be made dynamic by querying distinct values
+    return ["Apple", "Breitling", "Casio", "Citizen", "Daniel Wellington", "Fossil", "Omega", "Rolex", "Samsung", "Seiko", "TAG Heuer", "Tissot"];
+  }
+
+  // Transform database fields to UI format
+  transformWatchData(watchData) {
+    const images = watchData.images_c ? 
+      (typeof watchData.images_c === 'string' ? watchData.images_c.split('\n').filter(img => img.trim()) : []) :
+      ['https://images.unsplash.com/photo-1523170335258-f5c0b11c7e10?w=500&h=500&fit=crop']; // Default image
+
+    const specifications = watchData.specifications_c ? 
+      (typeof watchData.specifications_c === 'string' ? 
+        this.parseSpecifications(watchData.specifications_c) : watchData.specifications_c) : 
+      {};
+
+    return {
+      Id: watchData.Id,
+      brand: watchData.brand_c || '',
+      model: watchData.model_c || '',
+      price: parseFloat(watchData.price_c) || 0,
+      category: watchData.category_c || '',
+      description: watchData.description_c || '',
+      inStock: watchData.in_stock_c === true || watchData.in_stock_c === 'true',
+      movement: watchData.movement_c || '',
+      caseSize: watchData.case_size_c || '',
+      caseMaterial: watchData.case_material_c || '',
+      strapMaterial: watchData.strap_material_c || '',
+      waterResistance: watchData.water_resistance_c || '',
+      images: images,
+      specifications: specifications
+    };
+  }
+
+  // Parse specifications from multiline text
+  parseSpecifications(specsText) {
+    try {
+      // Try to parse as JSON first
+      return JSON.parse(specsText);
+    } catch {
+      // If not JSON, parse as key-value pairs
+      const specs = {};
+      if (specsText) {
+        const lines = specsText.split('\n');
+        lines.forEach(line => {
+          const [key, value] = line.split(':').map(s => s.trim());
+          if (key && value) {
+            specs[key] = value;
+          }
+        });
+      }
+      return specs;
+    }
   }
 }
 
+export default new WatchService();
 export default new WatchService();

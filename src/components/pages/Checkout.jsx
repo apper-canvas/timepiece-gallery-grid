@@ -103,7 +103,7 @@ const Checkout = () => {
       setLoading(true);
       
       const orderData = {
-        items: cartItems,
+items: cartItems,
         totalAmount: total,
         shippingAddress: {
           firstName: formData.firstName,
@@ -119,11 +119,13 @@ const Checkout = () => {
       };
 
       const order = await orderService.createOrder(orderData);
-      clearCart();
-      toast.success("Order placed successfully!");
-      navigate(`/order-confirmation/${order.Id}`, { 
-        state: { orderNumber: order.orderNumber } 
-      });
+      if (order) {
+        clearCart();
+        toast.success("Order placed successfully!");
+        navigate(`/order-confirmation/${order.Id}`, { 
+          state: { orderNumber: order.orderNumber } 
+        });
+      }
     } catch (error) {
       toast.error("Failed to place order. Please try again.");
       console.error("Order error:", error);

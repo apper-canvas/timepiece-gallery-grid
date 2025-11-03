@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useAuth } from "@/layouts/Root";
 import SearchBar from "@/components/molecules/SearchBar";
 import Button from "@/components/atoms/Button";
 import ApperIcon from "@/components/ApperIcon";
 
 const Header = ({ cartItemCount = 0, onSearch, onCartClick, onMobileMenuToggle }) => {
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useSelector(state => state.user);
+  const { logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigationItems = [
@@ -60,7 +64,7 @@ const Header = ({ cartItemCount = 0, onSearch, onCartClick, onMobileMenuToggle }
               <SearchBar onSearch={handleSearch} />
             </div>
 
-            {/* Actions */}
+{/* Actions */}
             <div className="flex items-center space-x-4">
               {/* Cart Button */}
               <Button
@@ -75,6 +79,40 @@ const Header = ({ cartItemCount = 0, onSearch, onCartClick, onMobileMenuToggle }
                   </span>
                 )}
               </Button>
+
+              {/* Auth Actions */}
+              {isAuthenticated ? (
+                <div className="hidden md:flex items-center space-x-3">
+                  <span className="text-sm text-secondary">
+                    Welcome, {user?.firstName || user?.name || 'User'}
+                  </span>
+                  <Button
+                    variant="outline"
+                    onClick={logout}
+                    className="text-sm"
+                  >
+                    <ApperIcon name="LogOut" className="w-4 h-4 mr-2" />
+                    Logout
+                  </Button>
+                </div>
+              ) : (
+                <div className="hidden md:flex items-center space-x-2">
+                  <Button
+                    variant="ghost"
+                    onClick={() => navigate("/login")}
+                    className="text-sm"
+                  >
+                    Login
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => navigate("/signup")}
+                    className="text-sm"
+                  >
+                    Sign Up
+                  </Button>
+                </div>
+              )}
 
               {/* Mobile Menu Button */}
               <Button
@@ -101,7 +139,7 @@ const Header = ({ cartItemCount = 0, onSearch, onCartClick, onMobileMenuToggle }
         <div className="md:hidden bg-white border-b border-gray-200 shadow-lg">
           <div className="max-w-7xl mx-auto px-4 py-4">
             <nav className="space-y-3">
-              {navigationItems.map((item) => (
+{navigationItems.map((item) => (
                 <Link
                   key={item.href}
                   to={item.href}
@@ -110,6 +148,52 @@ const Header = ({ cartItemCount = 0, onSearch, onCartClick, onMobileMenuToggle }
                 >
                   {item.label}
                 </Link>
+              ))}
+              
+              {/* Mobile Auth Actions */}
+              <div className="pt-4 border-t border-gray-100">
+                {isAuthenticated ? (
+                  <div className="space-y-2">
+                    <div className="text-sm text-secondary py-2">
+                      Welcome, {user?.firstName || user?.name || 'User'}
+                    </div>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        logout();
+                      }}
+                      className="w-full justify-start"
+                    >
+                      <ApperIcon name="LogOut" className="w-4 h-4 mr-2" />
+                      Logout
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-2">
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        navigate("/login");
+                      }}
+                      className="w-full justify-start"
+                    >
+                      Login
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        navigate("/signup");
+                      }}
+                      className="w-full justify-start"
+                    >
+                      Sign Up
+                    </Button>
+                  </div>
+                )}
+              </div>
               ))}
             </nav>
           </div>
